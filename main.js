@@ -12,10 +12,12 @@ function openWSConnection() {
 
         };
         webSocket.onclose = function (closeEvent) {
-
+            document.getElementsByClassName("network-error")[0].style.display = "block";
+            document.getElementsByClassName("network-error")[0].innerHTML = "Connection closed";
         };
         webSocket.onerror = function (errorEvent) {
-
+            document.getElementsByClassName("network-error")[0].style.display = "block";
+            document.getElementsByClassName("network-error")[0].innerHTML = "Connection Error"
         };
         webSocket.onmessage = function (messageEvent) {
             document.getElementById("wrapper").classList.remove("loader");
@@ -64,6 +66,7 @@ function renderStocks(messageData) {
 
 function createStockElement(stockName, stockPrice) {
     var wrapper = document.getElementById("wrapper");
+    var content = document.createElement("div");
     var container = document.createElement("div");
     var name = document.createElement("div");
     var price = document.createElement("div");
@@ -78,6 +81,7 @@ function createStockElement(stockName, stockPrice) {
     time.classList.add("stock-time");
     container.classList.add("stock");
     container.setAttribute("id", stockName);
+    content.classList.add("content");
 
     name.innerHTML = stockName;
     price.innerHTML = stockPrice;
