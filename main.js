@@ -52,11 +52,13 @@ function renderStocks(messageData) {
         }
         createStockElement(currentStockName,currentStockPrice);
     } else {
-
         var previousPrice = stockData[currentStockName]["price"];
         stockData[currentStockName]["price"] = currentStockPrice;
         stockData[currentStockName]["time"] = stockUpdatedTime;
         stockData[currentStockName]["stockGraph"].push(currentStockPrice);
+        if(stockData[currentStockName]["stockGraph"].length > 15){
+            stockData[currentStockName]["stockGraph"].splice(0,1);
+        }
         var classChange;
         if(previousPrice < currentStockPrice) {
             classChange = "green";
@@ -98,8 +100,6 @@ function createStockElement(stockName, stockPrice) {
     price.innerHTML = stockPrice;
     time.innerHTML = "Few seconds ago";
 
-
-
     container.appendChild(name);
     container.appendChild(price);
     container.appendChild(time);
@@ -109,11 +109,9 @@ function createStockElement(stockName, stockPrice) {
 
 function updateStockElement(stockName, stockPrice, classChange) {
     document.getElementById(stockName + "_price").innerHTML = stockPrice;
-
     document.getElementById(stockName + "_price").classList = [];
     document.getElementById(stockName + "_price").classList.add("stock-price");
     document.getElementById(stockName + "_price").classList.add(classChange);
-
     document.getElementById(stockName + "_time").innerHTML = "Few seconds ago";
 
     if(stockData[stockName].stockGraph.length > 2){
